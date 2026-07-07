@@ -523,6 +523,26 @@ main {
   background: var(--bg-primary);
 }
 
+
+.lightbox-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
+}
+
+.lightbox-trigger--preview {
+  width: 616px;
+  max-width: 100%;
+}
+
+.lightbox-trigger--preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 .game-feature-image img {
   width: auto;
   height: auto;

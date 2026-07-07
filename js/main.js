@@ -64,23 +64,42 @@
   const lightboxPrev = document.querySelector(".lightbox-prev");
   const lightboxNext = document.querySelector(".lightbox-next");
   const lightboxBackdrop = document.querySelector(".lightbox-backdrop");
-  const galleryItems = document.querySelectorAll(".gallery-item[data-lightbox]");
+  const lightboxTriggers = document.querySelectorAll("[data-lightbox]");
 
-  const gallerySlides = Array.from(galleryItems).map(function (item) {
-    const img = item.querySelector("img");
-    return {
-      src: item.dataset.lightbox,
-      alt: img ? img.alt : "",
-    };
-  });
-
+  let activeSlides = [];
   let currentSlideIndex = 0;
 
+  function getLightboxGroup(item) {
+    if (item.dataset.lightboxGroup) {
+      return item.dataset.lightboxGroup;
+    }
+
+    if (item.closest(".gallery")) {
+      return "umpb";
+    }
+
+    return "default";
+  }
+
+  function getSlidesForGroup(group) {
+    return Array.from(lightboxTriggers)
+      .filter(function (item) {
+        return getLightboxGroup(item) === group;
+      })
+      .map(function (item) {
+        const img = item.querySelector("img");
+        return {
+          src: item.dataset.lightbox,
+          alt: img ? img.alt : "",
+        };
+      });
+  }
+
   function updateLightboxLabels() {
-    if (!lightboxDialog || !gallerySlides.length) return;
+    if (!lightboxDialog || !activeSlides.length) return;
 
     const position = currentSlideIndex + 1;
-    const total = gallerySlides.length;
+    const total = activeSlides.length;
     lightboxDialog.setAttribute("aria-label", "Image " + position + " of " + total);
 
     if (lightboxPrev) {
@@ -97,10 +116,10 @@
   }
 
   function showSlide(index) {
-    if (!gallerySlides.length || !lightboxImage) return;
+    if (!activeSlides.length || !lightboxImage) return;
 
-    currentSlideIndex = (index + gallerySlides.length) % gallerySlides.length;
-    const slide = gallerySlides[currentSlideIndex];
+    currentSlideIndex = (index + activeSlides.length) % activeSlides.length;
+    const slide = activeSlides[currentSlideIndex];
     lightboxImage.src = slide.src;
     lightboxImage.alt = slide.alt;
     updateLightboxLabels();
@@ -110,16 +129,18 @@
     if (!lightbox) return;
     lightbox.hidden = true;
     document.body.style.overflow = "";
+    activeSlides = [];
     if (lightboxImage) {
       lightboxImage.src = "";
       lightboxImage.alt = "";
     }
   }
 
-  function openLightbox(src) {
+  function openLightbox(src, group) {
     if (!lightbox || !lightboxImage) return;
 
-    const index = gallerySlides.findIndex(function (slide) {
+    activeSlides = getSlidesForGroup(group);
+    const index = activeSlides.findIndex(function (slide) {
       return slide.src === src;
     });
 
@@ -131,9 +152,9 @@
     }
   }
 
-  galleryItems.forEach(function (item) {
+  lightboxTriggers.forEach(function (item) {
     item.addEventListener("click", function () {
-      openLightbox(item.dataset.lightbox);
+      openLightbox(item.dataset.lightbox, getLightboxGroup(item));
     });
   });
 
