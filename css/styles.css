@@ -508,7 +508,20 @@ main {
   align-items: start;
 }
 
-.gallery + .game-feature {
+.game-feature--reverse {
+  grid-template-columns: 1fr auto;
+}
+
+.game-feature--reverse .game-feature-content {
+  order: 1;
+}
+
+.game-feature--reverse .game-feature-image {
+  order: 2;
+}
+
+.gallery + .game-feature,
+.game-feature + .game-feature {
   margin-top: 4rem;
   padding-top: 4rem;
   border-top: 1px solid var(--border);
@@ -621,6 +634,67 @@ main {
   max-width: 280px;
 }
 
+
+.play-button {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.875rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+
+.play-button:hover {
+  border-color: #555;
+  background: var(--bg-secondary);
+  transform: translateY(-2px);
+}
+
+.game-player-page {
+  overflow-x: auto;
+}
+
+.game-player .container.game-player-shell {
+  max-width: none;
+  width: fit-content;
+}
+
+.game-player .text-link {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.game-player-title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+}
+
+.game-frame {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+}
+
+.game-frame iframe {
+  display: block;
+  width: 1920px;
+  height: 1080px;
+  border: 0;
+  overflow: hidden;
+}
 .store-link--google img {
   height: 80px;
   max-width: 400px;
