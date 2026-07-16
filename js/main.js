@@ -74,7 +74,12 @@
       return item.dataset.lightboxGroup;
     }
 
-    if (item.closest(".gallery")) {
+    const gallery = item.closest(".gallery");
+    if (gallery && gallery.dataset.lightboxGroup) {
+      return gallery.dataset.lightboxGroup;
+    }
+
+    if (gallery) {
       return "umpb";
     }
 
