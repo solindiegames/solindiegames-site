@@ -547,7 +547,7 @@ main {
 }
 
 .lightbox-trigger--preview {
-  width: 616px;
+  width: 374px;
   max-width: 100%;
 }
 
@@ -555,6 +555,8 @@ main {
   display: block;
   width: 100%;
   height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 }
 .game-feature-image img {
   width: auto;
